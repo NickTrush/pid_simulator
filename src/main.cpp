@@ -1,8 +1,8 @@
+#include "include/mainwindow.h"
 #include <QApplication>
 #include <QObject>
 #include <QThread>
 #include <locale.h>
-#include "include/mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     simulatorThread.start();
 
     w.show();
-    a.exec();
+    QApplication::exec();
 
     simulatorThread.quit();
     simulatorThread.wait();

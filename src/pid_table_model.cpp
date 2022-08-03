@@ -10,21 +10,23 @@ PidTableModel::PidTableModel(QObject *parent):
 int PidTableModel::rowCount(const QModelIndex& index) const
 {
     Q_UNUSED(index)
-    return vertical_headers.size();
+    return static_cast<int>(vertical_headers.size());
 }
 
 int PidTableModel::columnCount(const QModelIndex& index) const
 {
     Q_UNUSED(index)
-    return horizontal_headers.size();
+    return static_cast<int>(horizontal_headers.size());
 }
 
 QVariant PidTableModel::data(const QModelIndex& index, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (index.row() == 0) return targetCoordinate;
-        else return pidCoefficients.at(index.row() - 1);
+        if (index.row() == 0)
+            return targetCoordinate;
+
+        return pidCoefficients.at(index.row() - 1);
     }
 
     return QVariant();
@@ -61,11 +63,12 @@ bool PidTableModel::setData(const QModelIndex& index, const QVariant& value, int
     if (role == Qt::EditRole && value.canConvert<float>())
     {
         if (index.row() == 0) targetCoordinate = value.toReal();
-        else pidCoefficients[index.row() - 1] = value.toReal();
+        else pidCoefficients[index.row() - 1] = static_cast<float>(value.toReal());
 
         return true;
     }
-    else return false;
+
+    return false;
 }
 
 qreal PidTableModel::getTargetCoordinate() const
